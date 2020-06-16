@@ -6,18 +6,6 @@ def GIT_COMMIT_HASH
 pipeline {
     agent any
     stages {
-        stage('Checkout Source Code and Logging Into Registry') {
-            steps {
-                echo 'Logging Into the Private ECR Registry'
-                script {
-                    GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
-                    ACCOUNT_REGISTRY_PREFIX = "wctan"
-                    sh """
-                    \$(docker login -u wctan -p 667c6ff8-17c7-49a8-9e0a-eb87d4a43a88)
-                    """
-                }
-            }
-        }
 
         stage('Make A Builder Image') {
             steps {
@@ -80,7 +68,7 @@ pipeline {
 
         stage('Integration Tests') {
             when {
-                branch 'master'
+                branch 'release'
             }
             steps {
                 echo 'Deploy to test environment and run integration tests'
@@ -109,7 +97,7 @@ pipeline {
  
         stage('Deploy to Production') {
             when {
-                branch 'master'
+                branch 'release'
             }
             steps {
                 script {
