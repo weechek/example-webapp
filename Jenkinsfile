@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo 'Starting to build the project builder docker image'
                 script {
-					docker.withRegistry('https://registry.example.com', 'docker-hub-credentials') {
+					docker.withRegistry('', 'docker-hub-credentials') {
 						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder .")
 						builderImage.push()
 						builderImage.push("${env.GIT_BRANCH}")
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 echo 'Starting to build docker image'
                 script {
-					docker.withRegistry('https://registry.example.com', 'docker-hub-credentials') {
+					docker.withRegistry('', 'docker-hub-credentials') {
 						productionImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp:${GIT_COMMIT_HASH}")
 						productionImage.push()
 						productionImage.push("${env.GIT_BRANCH}")
