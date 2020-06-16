@@ -21,10 +21,10 @@ pipeline {
                 echo 'Starting to build the project builder docker image'
                 script {
 					docker.withRegistry('', 'docker-hub-credentials') {
-						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder .")
+						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder ${working_dir}")
 						builderImage.push()
 						builderImage.push("${env.GIT_BRANCH}")
-						builderImage.inside('-v $WORKSPACE:/output -u root') {
+						builderImage.inside('-v ${working_dir}:/output -u root') {
 							sh """
 							   cd /output
 							   lein uberjar
