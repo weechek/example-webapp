@@ -21,7 +21,7 @@ pipeline {
                 echo 'Starting to build the project builder docker image'
                 script {
 					docker.withRegistry('', 'docker-hub-credentials') {
-						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder ${working_dir}")
+						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder .")
 						builderImage.push()
 						builderImage.push("${env.GIT_BRANCH}")
 						builderImage.inside('-v ${working_dir}:/output -u root') {
