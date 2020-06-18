@@ -2,7 +2,7 @@ def builderImage
 def productionImage
 def ACCOUNT_REGISTRY_PREFIX
 def GIT_COMMIT_HASH
-#def working_dir = '/f/Program Files (x86)/Jenkins/workspace/example-webapp_master'
+/*def working_dir = '/f/Program Files (x86)/Jenkins/workspace/example-webapp_master'*/
 pipeline {
     agent any
     stages {
