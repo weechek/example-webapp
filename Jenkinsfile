@@ -19,7 +19,7 @@ pipeline {
         stage('Make A Builder Image') {
             steps {
                 echo 'Starting to build the project builder docker image'
-				echo $WORKSPACE
+				echo '$WORKSPACE'
                 script {
 					docker.withRegistry('', 'docker-hub-credentials') {
 						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder .")
