@@ -2,7 +2,7 @@ def builderImage
 def productionImage
 def ACCOUNT_REGISTRY_PREFIX
 def GIT_COMMIT_HASH
-def working_dir = '/e/jenkins_home/workspace/example-webapp_master'
+/*def working_dir = '/f/Program Files (x86)/Jenkins/workspace/example-webapp_master'*/
 pipeline {
     agent any
     stages {
@@ -19,12 +19,13 @@ pipeline {
         stage('Make A Builder Image') {
             steps {
                 echo 'Starting to build the project builder docker image'
+				echo $WORKSPACE
                 script {
 					docker.withRegistry('', 'docker-hub-credentials') {
 						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder .")
 						builderImage.push()
 						builderImage.push("${env.GIT_BRANCH}")
-						builderImage.inside('-v ${working_dir}:/output -u root') {
+						builderImage.inside('-v $WORKSPACE:/output -u root') {
 							sh """
 							   cd /output
 							   lein uberjar
@@ -39,7 +40,7 @@ pipeline {
             steps {
                 echo 'running unit tests in the builder image.'
                 script {
-                    builderImage.inside('-v ${working_dir}:/output -u root') {
+                    builderImage.inside('-v $WORKSPACE:/output -u root') {
                     sh """
                        cd /output
                        lein test
