@@ -24,9 +24,8 @@ pipeline {
 						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder .")
 						builderImage.push()
 						builderImage.push("${env.GIT_BRANCH}")
-						builderImage.inside('-v /var/jenkins_home/workspace/example-webapp_master:/output -u root') {
+						builderImage.inside('-u root') {
 							sh """
-							   cd /output
 							   lein uberjar
 							"""
 						}
@@ -41,7 +40,6 @@ pipeline {
                 script {
                     builderImage.inside('-v /var/jenkins_home/workspace/example-webapp_master:/output -u root') {
                     sh """
-                       cd /output
                        lein test
                     """
                     }
