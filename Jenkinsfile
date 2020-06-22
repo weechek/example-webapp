@@ -24,7 +24,7 @@ pipeline {
 						builderImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-builder:${GIT_COMMIT_HASH}", "-f ./Dockerfile.builder .")
 						builderImage.push()
 						builderImage.push("${env.GIT_BRANCH}")
-						builderImage.inside('-v ${working_dir}:/output -u root') {
+						builderImage.inside('-v /var/jenkins_home/workspace/example-webapp_master:/output -u root') {
 							sh """
 							   cd /output
 							   lein uberjar
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 echo 'running unit tests in the builder image.'
                 script {
-                    builderImage.inside('-v ${working_dir}:/output -u root') {
+                    builderImage.inside('-v /var/jenkins_home/workspace/example-webapp_master:/output -u root') {
                     sh """
                        cd /output
                        lein test
