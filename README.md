@@ -5,6 +5,8 @@ The Jenkinsfile in this version is designed for the setup below only:-
  b. Docker Hub as registry
  c. Jenkins Docker Image - jenkins/jenkins/ latest
 
+The jenkins image i build has fixed a lot of issues to enable jenkins running in Docker for Windows to build docker images. You can get them here - https://hub.docker.com/repository/docker/wctan/jenkins_with_docker_cli
+
 # example-webapp
 
 generated using Luminus version "2.9.12.25"
